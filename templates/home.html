@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+    {% for podcast in podcasts %}
+        <article class="media content-section">
+            <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="#">{{ podcast.host }}</a>
+                <small class="text-muted">{{ podcast.date_posted }}</small>
+            </div>
+            <h2><a class="article-title" href="#">{{ podcast.title }}</a></h2>
+            <p class="article-category">{{ podcast.category }}</p>
+            </div>
+        </article>
+    {% endfor %}
+    {% endblock content %}
