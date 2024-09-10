@@ -13,7 +13,7 @@ class User(db.Model):
     podcasts = db.relationship('Podcast', backref='creator', lazy=True)
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.image_field}', '{self.bio}')"
+        return f"User('{self.username}', '{self.email}', '{self.image_file}', '{self.bio}')"
 
 
 class Post(db.Model):
