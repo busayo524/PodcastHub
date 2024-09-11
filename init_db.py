@@ -1,5 +1,9 @@
-from podtok import app, db
-from podtok.models import User, Post, Podcast, Episode  # Import your models
+from podtok import app, db, create_app
+from podtok.models import User, Post, Podcast, Episode
+
+
+app =  create_app()
+
 
 with app.app_context():
     db.create_all()

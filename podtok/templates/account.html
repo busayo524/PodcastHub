@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Account Settings</h1>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <img src="{{ url_for('static', filename='profile_pics/' + current_user.image_file) }}" alt="Profile Picture" class="rounded-circle mb-3" id="profilePicture">
+                    <h5 class="card-title" id="userName">{{ current_user.username }}</h5>
+                    <p class="card-text" id="userBio">{{ current_user.bio }}</p>
+                    <button class="btn btn-primary" onclick="document.getElementById('profilePicInput').click()">Change Profile Picture</button>
+                    <input type="file" id="profilePicInput" style="display: none;" accept="image/*" name="picture">
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <form method="POST" action="" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                    {{ form.phone_number(class="form-control", id="phoneNumber", placeholder="Enter your phone number") }}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="bio" class="form-label">Bio</label>
+                    {{ form.bio(class="form-control", id="bio", rows="3", placeholder="Write a short bio about yourself") }}
+                </div>
+                
+                <div class="mb-3 form-check form-switch">
+                    {{ form.dark_mode(class="form-check-input", id="darkModeSwitch") }}
+                    <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Profile Picture Privacy</label>
+                    {{ form.profile_pic_privacy(class="form-select", id="profilePicPrivacy") }}
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Notification Settings</label>
+                    <div class="form-check">
+                        {{ form.email_notifications(class="form-check-input", id="emailNotif") }}
+                        <label class="form-check-label" for="emailNotif">Email Notifications</label>
+                    </div>
+                    <div class="form-check">
+                        {{ form.push_notifications(class="form-check-input", id="pushNotif") }}
+                        <label class="form-check-label" for="pushNotif">Push Notifications</label>
+                    </div>
+                </div>
+                
+                {{ form.submit(class="btn btn-primary") }}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    // Dark mode toggle
+    const darkModeSwitch = document.getElementById('darkModeSwitch');
+    darkModeSwitch.addEventListener('change', () => {
+        document.body.classList.toggle('dark-mode');
+    });
+
+    // Profile picture upload preview
+    const profilePicInput = document.getElementById('profilePicInput');
+    profilePicInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('profilePicture').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+{% endblock scripts %}
+{% endblock content %}

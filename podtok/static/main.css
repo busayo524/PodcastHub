@@ -78,3 +78,61 @@ body {
   .account-heading {
     font-size: 2.5rem;
   }
+
+  .dark-mode {
+    background-color: #333;
+    color: #fff;
+  }
+
+  .dark-mode .card {
+    background-color: #444;
+    color: #fff;
+  }
+
+  .dark-mode .btn-primary {
+    background-color: #0056b3;
+    border-color: #004085;
+  }
+
+  .dark-mode .site-header {
+    background-color: #222;
+  }
+
+  .dark-mode .navbar-dark .navbar-brand,
+  .dark-mode .navbar-dark .navbar-nav .nav-link {
+    color: #fff;
+  }
+
+  .dark-mode .content-section {
+    background-color: #444;
+    color: #fff;
+  }
+
+  .dark-mode .article-title {
+    color: #fff;
+  }
+
+  .dark-mode .article-content {
+    color: #ddd;
+  }
+
+  .dark-mode .list-group-item {
+    background-color: #555;
+    color: #fff;
+  }
+
+  .dark-mode .form-control {
+    background-color: #555;
+    color: #fff;
+    border-color: #777;
+  }
+
+  .dark-mode .btn-outline-info {
+    color: #17a2b8;
+    border-color: #17a2b8;
+  }
+
+  .dark-mode .btn-outline-info:hover {
+    color: #fff;
+    background-color: #17a2b8;
+  }

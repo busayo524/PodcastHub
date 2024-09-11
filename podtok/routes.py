@@ -1,10 +1,13 @@
-from flask import render_template, url_for, flash, redirect
+from flask import render_template, url_for, flash, redirect, request
 from podtok import app, db, bcrypt
-from podtok.forms import RegistrationForm, LoginForm
+from podtok.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from podtok.models import User, Post, Podcast, Episode
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-
+from flask_login import login_user, current_user, logout_user, login_required
+from PIL import Image
+import os
+import secrets
 
 users = [
     {
@@ -139,6 +142,8 @@ def about():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -151,12 +156,49 @@ def register():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
-        if form.email.data == 'admin@podcast.com' and form.password.data == 'password':
-            flash('You have been logged in', 'success')
-            return redirect(url_for('home'))
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
-            flash('Login Unsuccessful. Enter a differnt Username or Password', 'danger')
-
+            flash('Login Unsuccessful. Enter a different Email or Password', 'danger')
     return render_template('login.html', title='Login', form=form)
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+
+@app.route("/account")
+@login_required
+def account():
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+        current_user.phone_number = form.phone_number.data
+        current_user.bio = form.bio.data
+        current_user.dark_mode = form.dark_mode.data
+        current_user.profile_pic_privacy = form.profile_pic_privacy.data
+        current_user.email_notifications = form.email_notifications.data
+        current_user.push_notifications = form.push_notifications.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.phone_number.data = current_user.phone_number
+        form.bio.data = current_user.bio
+        form.dark_mode.data = current_user.dark_mode
+        form.profile_pic_privacy.data = current_user.profile_pic_privacy
+        form.email_notifications.data = current_user.email_notifications
+        form.push_notifications.data = current_user.push_notifications
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    return render_template('account.html', title='Account', image_file=image_file, form=form)
