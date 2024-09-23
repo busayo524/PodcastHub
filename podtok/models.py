@@ -1,6 +1,8 @@
 from datetime import datetime
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from podtok import db, login_manager
 from flask_login import UserMixin
+from flask import current_app
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -17,14 +19,28 @@ class User(db.Model, UserMixin):
     join_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     dark_mode = db.Column(db.Boolean, default=False)
     profile_pic_privacy = db.Column(db.String(20), default='public')
+    notification = db.Column(db.Boolean, default=False)
     email_notifications = db.Column(db.Boolean, default=True)
     push_notifications = db.Column(db.Boolean, default=True)
     phone_number = db.Column(db.String(15), nullable=True)
     posts = db.relationship('Post', backref='author', lazy=True)
     podcasts = db.relationship('Podcast', backref='creator', lazy=True)
 
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}', '{self.bio}')"
+    
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return User.query.get(user_id)
 
 
 class Post(db.Model):
@@ -35,7 +51,7 @@ class Post(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
-        return f"Post('{self.title}', '{self.content}' '{self.date_posted}')"
+        return f"Post('{self.title}', '{self.content}', '{self.date_posted}', 'Author: {self.author.username}')"
     
 class Podcast(db.Model):
     id = db.Column(db.Integer, primary_key=True)

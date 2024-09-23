@@ -1,83 +1,81 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-5">
-    <h1 class="mb-4">Account Settings</h1>
-    
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card mb-4">
-                <div class="card-body text-center">
-                    <img src="{{ url_for('static', filename='profile_pics/' + current_user.image_file) }}" alt="Profile Picture" class="rounded-circle mb-3" id="profilePicture">
-                    <h5 class="card-title" id="userName">{{ current_user.username }}</h5>
-                    <p class="card-text" id="userBio">{{ current_user.bio }}</p>
-                    <button class="btn btn-primary" onclick="document.getElementById('profilePicInput').click()">Change Profile Picture</button>
-                    <input type="file" id="profilePicInput" style="display: none;" accept="image/*" name="picture">
-                </div>
-            </div>
+    <div class="content-section">
+        <div class="media">
+        <img class="rounded-circle account-img" src="{{ image_file }}">
+        <div class="media-body">
+            <h2 class="account-heading">{{ current_user.username }}</h2>
+            <p class="text-secondary">{{ current_user.email }}</p>
         </div>
-        
-        <div class="col-md-8">
-            <form method="POST" action="" enctype="multipart/form-data">
+        </div>
+            <form method="POST" action="{{ url_for('main.account') }}" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
-                <div class="mb-3">
-                    <label for="phoneNumber" class="form-label">Phone Number</label>
-                    {{ form.phone_number(class="form-control", id="phoneNumber", placeholder="Enter your phone number") }}
-                </div>
-                
-                <div class="mb-3">
-                    <label for="bio" class="form-label">Bio</label>
-                    {{ form.bio(class="form-control", id="bio", rows="3", placeholder="Write a short bio about yourself") }}
-                </div>
-                
-                <div class="mb-3 form-check form-switch">
-                    {{ form.dark_mode(class="form-check-input", id="darkModeSwitch") }}
-                    <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
-                </div>
-                
-                <div class="mb-3">
-                    <label class="form-label">Profile Picture Privacy</label>
-                    {{ form.profile_pic_privacy(class="form-select", id="profilePicPrivacy") }}
-                </div>
-                
-                <div class="mb-3">
-                    <label class="form-label">Notification Settings</label>
-                    <div class="form-check">
-                        {{ form.email_notifications(class="form-check-input", id="emailNotif") }}
-                        <label class="form-check-label" for="emailNotif">Email Notifications</label>
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4"> Account Info</legend>
+                    <div class="form-group">
+                        {{ form.username.label(class="form-control-label") }}
+        
+                        {% if form.username.errors %}
+                            {{ form.username(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.username.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.username(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.email.label(class="form-control-label") }}
+                        {% if form.email.errors %}
+                            {{ form.email(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.email(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.phone_number.label(class="form-control-label") }}
+                        {{ form.phone_number(class="form-control form-control-lg") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.bio.label(class="form-control-label") }}
+                        {{ form.bio(class="form-control form-control-lg") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.picture.label() }}
+                        {{ form.picture(class="form-control-file") }}
                     </div>
                     <div class="form-check">
-                        {{ form.push_notifications(class="form-check-input", id="pushNotif") }}
-                        <label class="form-check-label" for="pushNotif">Push Notifications</label>
+                        {{ form.dark_mode(class="form-check-input") }}
+                        {{ form.dark_mode.label(class="form-check-label") }}
+                        {% if form.picture.errors %}
+                            {% for error in form.picture.errors %}
+                                <span class="text-danger">{{ error }}</span></br>
+                            {% endfor %}
+                        {% endif %}
                     </div>
+                    <div class="form-group">
+                        {{ form.profile_pic_privacy.label(class="form-control-label") }}
+                        {{ form.profile_pic_privacy(class="form-control") }}
+                    </div>
+                    <div class="form-check">
+                        {{ form.email_notifications(class="form-check-input") }}
+                        {{ form.email_notifications.label(class="form-check-label") }}
+                    </div>
+                    <div class="form-check">
+                        {{ form.push_notifications(class="form-check-input") }}
+                        {{ form.push_notifications.label(class="form-check-label") }}
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info") }}
                 </div>
-                
-                {{ form.submit(class="btn btn-primary") }}
             </form>
         </div>
-    </div>
-</div>
-{% endblock content %}
-
-{% block scripts %}
-<script>
-    // Dark mode toggle
-    const darkModeSwitch = document.getElementById('darkModeSwitch');
-    darkModeSwitch.addEventListener('change', () => {
-        document.body.classList.toggle('dark-mode');
-    });
-
-    // Profile picture upload preview
-    const profilePicInput = document.getElementById('profilePicInput');
-    profilePicInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                document.getElementById('profilePicture').src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-</script>
-{% endblock scripts %}
 {% endblock content %}

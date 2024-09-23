@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="landing-page">
+    <!-- Slideshow Header -->
+    <header class="landing-header">
+        <div id="landingCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{{ url_for('static', filename='images/slide1.jpg') }}" class="d-block w-100" alt="Welcome to PodTok - Your social hub for podcast enthusiasts">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1 class="display-4">Welcome to PodTok</h1>
+                        <p class="lead">Your social hub for podcast enthusiasts</p>
+                        <a href="{{ url_for('main.home') }}" class="btn btn-primary btn-lg mt-3" style="padding: 10px 20px;">Explore PodTok</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ url_for('static', filename='images/slide2.jpg') }}" class="d-block w-100" alt="Podcast Image 2">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h2>Discover Amazing Podcasts</h2>
+                        <p>Connect with creators and listeners alike</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ url_for('static', filename='images/slide3.jpg') }}" class="d-block w-100" alt="Podcast Image 3">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h2>Share Your Voice</h2>
+                        <p>Upload and share your own podcast episodes</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#landingCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#landingCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Rest of the content -->
+    <section class="features py-5">
+        <div class="container-fluid">
+            <h2 class="text-center mb-5">Key Features</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ url_for('static', filename='images/feature1.jpg') }}" class="card-img-top" alt="Create and Share Posts">
+                        <div class="card-body">
+                            <h3 class="card-title">Create and Share Posts</h3>
+                            <p class="card-text">Connect with fellow podcast lovers through engaging posts.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ url_for('static', filename='images/feature2.jpg') }}" class="card-img-top" alt="Upload Podcast Episodes">
+                        <div class="card-body">
+                            <h3 class="card-title">Upload Podcast Episodes</h3>
+                            <p class="card-text">Share your favorite episodes or host your own podcast series.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ url_for('static', filename='images/feature3.jpg') }}" class="card-img-top" alt="Discover New Content">
+                        <div class="card-body">
+                            <h3 class="card-title">Discover New Content</h3>
+                            <p class="card-text">Explore a wide range of podcasts and connect with creators.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-us py-5 bg-light"></section>
+        <div class="container">
+            <h2 class="text-center mb-5">About Us</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <p class="lead mb-4">Discover the story behind PodTok and the passionate developer who brought it to life.</p>
+                    <a href="{{ url_for('main.about') }}" class="btn btn-primary btn-lg">Learn More About the Developer</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock content %}

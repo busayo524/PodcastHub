@@ -1,4 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1> About page</h1>
+<div class="about-page">
+    <div class="container py-5">
+        <h1 class="mb-4">About PodTok</h1>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h2>The Inspiration</h2>
+                <p>PodTok was born out of a personal passion for podcasts and a desire to connect podcast enthusiasts. As an avid listener and aspiring podcaster, I often found myself wishing for a dedicated platform where I could share my thoughts, discover new content, and interact with like-minded individuals.</p>
+                <p>This project is a culmination of my journey as a developer and my love for audio content. It represents countless hours of learning, coding, and refining to create a space that I hope will become a vibrant community for podcast creators and listeners alike.</p>
+                <p>While PodTok serves as my Portfolio Project for <a href="https://www.alxafrica.com" target="_blank">Alx Africa</a>, it's much more than just an assignment. It's a real-world application of the skills I've gained and a stepping stone towards my goal of contributing meaningfully to the world of technology and digital media.</p>
+            </div>
+            <div class="col-md-6">
+                <h2>Meet the Developer</h2>
+                <img src="{{ url_for('static', filename='images/developer.jpg') }}" alt="Developer" class="img-fluid rounded mb-3">
+                <p>Hello! I'm Olowookere Busayomi, the creator of PodTok. As a full-stack developer with a background in Biochemistry
+                , I'm passionate about creating intuitive and engaging web applications that solve real-world problems.</p>
+                <p>My journey in tech has been driven by curiosity and a desire to make a positive impact. When I'm not coding, you can find me exploring new podcasts, experimenting with audio production, or contributing to open-source projects.</p>
+                <div class="social-links mt-3">
+                    <a href="https://www.linkedin.com/in/busayomi-olowookere-542b68242/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary me-2">LinkedIn</a>
+                    <a href="https://github.com/busayo524" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark me-2">GitHub</a>
+                    <a href="https://x.com/Bjessssss" target="_blank" rel="noopener noreferrer" class="btn btn-outline-info">Twitter</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-5">
+            <h2>Project Repository</h2>
+            <p>Interested in the technical details or want to contribute? Check out the PodTok repository on GitHub:</p>
+            <a href="https://github.com/busayo524/PodcastHub" target="_blank" rel="noopener noreferrer" class="btn btn-primary">View on GitHub</a>
+        </div>
+    </div>
+</div>
 {% endblock content %}

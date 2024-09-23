@@ -1,5 +1,5 @@
 body {
-    background: #fafafa;
+    background: #bec4d6;
     color: #333333;
     margin-top: 5rem;
   }
@@ -7,21 +7,92 @@ body {
   h1, h2, h3, h4, h5, h6 {
     color: #444444;
   }
+
+    /* Landing page styles */
+  .landing-page {
+    margin-top: -56px;
+  }
+  
+  .landing-header {
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  .landing-page .carousel-item {
+    height: 100vh;
+    min-height: 350px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+
+  .landing-page .carousel-caption {
+    bottom: 30%;
+    z-index: 10;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #f5f1f1f8;
+    text-align: center;
+    text-shadow: 0 1px 2px rgb(5, 3, 3);
+  }
+
+  .landing-page .carousel-caption h1 {
+    font-size: 50px;
+    font-weight: 800;
+  }
+
+  .landing-page .carousel-caption p {
+    font-size: 20px;
+  }
+
+  .landing-page .feature-item {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .landing-page .feature-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 15px;
+  }
+
+  .carousel-item img {
+    object-fit: cover; /* Ensures the image covers the entire area */
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+  }
+
+  .features .card {
+    height: 100%; /* Ensures all cards have equal height */
+  }
+
+  .features {
+    padding: 0;
+    margin: 0;
+  }
   
   .bg-steel {
-    background-color: #5f788a;
+    background-color: #f1eaea;
   }
   
   .site-header .navbar-nav .nav-link {
-    color: #cbd5db;
+    color: #050201fa;
   }
   
   .site-header .navbar-nav .nav-link:hover {
-    color: #ffffff;
+    color: #743a3a;
   }
   
   .site-header .navbar-nav .nav-link.active {
-    font-weight: 500;
+    font-weight: 600;
   }
   
   .content-section {
@@ -49,6 +120,10 @@ body {
     height: 65px;
     width: 65px;
     margin-right: 16px;
+  }
+
+  .rounded-circle {
+    border-radius: 50% !important;
   }
   
   .article-metadata {
@@ -135,4 +210,57 @@ body {
   .dark-mode .btn-outline-info:hover {
     color: #fff;
     background-color: #17a2b8;
+  }
+
+  .footer {
+      background-color: #f8f9fa;
+      padding: 20px 0;
+      margin-top: 20px;
+  }
+
+  .footer h3 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+  }
+
+  .footer {
+    background: linear-gradient(to right, #1a1a1a, #2c2c2c);
+  }
+
+  .footer h5, .footer h6 {
+      color: #f8f9fa;
+      font-weight: 600;
+  }
+
+  .footer ul li {
+      margin-bottom: 10px;
+  }
+
+  .footer a {
+      color: #f8f9fa;
+      text-decoration: none;
+      transition: color 0.3s ease;
+  }
+
+  .footer a:hover {
+      color: #007bff;
+  }
+
+  .social-icons a {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+  }
+
+  .social-icons a:hover {
+      transform: translateY(-3px);
+  }
+
+  .footer .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+  }
+
+  .footer .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
   }
