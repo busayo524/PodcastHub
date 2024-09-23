@@ -4,9 +4,9 @@ from PIL import Image
 from flask import Blueprint, render_template, url_for, flash, redirect, request, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from podtok import db, bcrypt, mail
+from flask_mail import Message
 from podtok.models import User, Post, Podcast, Episode
 from podtok.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, RequestResetForm, ResetPasswordForm
-from podtok.routes import send_reset_email
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
@@ -196,8 +196,12 @@ def reset_request():
     form = RequestResetForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        send_reset_email(user)
-        flash('An email has been sent with instructions to reset your password.', 'info')
+        if user:
+            token = user.get_reset_token()
+            send_reset_email(user)
+            flash('An email has been sent with instructions to reset your password.', 'info')
+        else:
+            flash('No account found with that email. Please try again.', 'danger')
         return redirect(url_for('main.login'))
     return render_template('reset_request.html', title='Reset Password', form=form)
 
@@ -206,10 +210,12 @@ def reset_request():
 def reset_token(token):
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
+    
     user = User.verify_reset_token(token)
     if user is None:
         flash('That is an invalid or expired token', 'warning')
         return redirect(url_for('main.reset_request'))
+    
     form = ResetPasswordForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
