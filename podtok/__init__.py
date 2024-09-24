@@ -10,7 +10,7 @@ from flask_mail import Mail
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-login_manager.login_view = 'login'
+login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 migrate = Migrate()
 mail = Mail()
@@ -33,7 +33,16 @@ def create_app():
     migrate.init_app(app,db)
     mail.init_app(app)
 
-    from podtok import routes
-    app.register_blueprint(routes.main)
+
+    from podtok.users.routes import users
+    from podtok.posts.routes import posts
+    from podtok.main.routes import main
+    from podtok.errors.handlers import errors
+
+
+    app.register_blueprint(users)
+    app.register_blueprint(posts)
+    app.register_blueprint(main)
+    app.register_blueprint(errors)
 
     return app
