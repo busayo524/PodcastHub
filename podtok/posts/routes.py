@@ -2,7 +2,12 @@ from flask import Blueprint, render_template, url_for, flash, redirect, request,
 from flask_login import current_user,login_required
 from podtok import db
 from podtok.models import Post
+from podtok.models import Audio
+from podtok.audios.forms import AudioForm
 from podtok.posts.forms import PostForm
+import os
+import secrets
+from werkzeug.utils import secure_filename
 
 
 posts = Blueprint('posts', __name__)

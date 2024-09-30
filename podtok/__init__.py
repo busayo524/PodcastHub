@@ -38,11 +38,13 @@ def create_app():
     from podtok.posts.routes import posts
     from podtok.main.routes import main
     from podtok.errors.handlers import errors
+    from podtok.audios.routes import audios
 
 
     app.register_blueprint(users)
     app.register_blueprint(posts)
     app.register_blueprint(main)
     app.register_blueprint(errors)
+    app.register_blueprint(audios)
 
     return app

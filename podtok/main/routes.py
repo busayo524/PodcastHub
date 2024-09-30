@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request
-from podtok.models import Post
+from podtok.models import Post, Audio
 
 main = Blueprint('main', __name__)
 
@@ -11,11 +11,9 @@ def index():
 def home():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
-    # Query all posts
-    #posts = Post.query.order_by(Post.date_posted.desc()).all()
-    #users = User.query.all()  users=users, podcasts=podcasts
-    #podcasts = Podcast.query.all()
-    return render_template('home.html', posts=posts)
+    audios = Audio.query.order_by(Audio.date_posted.desc()).paginate(page=page, per_page=5)
+    
+    return render_template('home.html', posts=posts, audios=audios)
 
 @main.route("/about")
 def about():

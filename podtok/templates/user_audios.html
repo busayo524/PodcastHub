@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1 class="mb-3">Audios by {{ user.username }} ({{ audios.total }})</h1>
+    {% for audio in audios.items %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{{ url_for('users.user_posts', username=audio.author.username) }}">{{ audio.author.username }}</a>
+              <small class="text-muted">{{ audio.date_posted.strftime('%Y-%m-%d') }}</small>
+            </div>
+            <h2><a class="article-title" href="{{ url_for('audios.audio', audio_id=audio.id) }}">{{ audio.title }}</a></h2>
+            <audio controls>
+              <source src="{{ url_for('static', filename='audios/' + audio.audio_file) }}" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+        </article>
+    {% endfor %}
+    {% for page_num in audios.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+      {% if page_num %}
+        {% if audios.page == page_num %}
+          <a class="btn btn-info mb-4" href="{{ url_for('audios.user_audios', username=user.username, page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('audios.user_audios', username=user.username, page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+      {% else %}
+        ...
+      {% endif %}
+    {% endfor %}
+{% endblock content %}

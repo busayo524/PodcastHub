@@ -16,6 +16,27 @@
         </article>
         <hr>
     {% endfor %}
+
+
+    <h1>Latest Audios</h1>
+    {% for audio in audios.items %}
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="{{ url_for('users.user_posts', username=audio.author.username) }}">{{ audio.author.username }}</a>
+                <small class="text-muted">{{ audio.date_posted.strftime('%Y-%m-%d') }}</small>
+            </div>
+            <h2><a class="article-title" href="{{ url_for('audios.audio', audio_id=audio.id) }}">{{ audio.title }}</a></h2>
+            <audio controls>
+                <source src="{{ url_for('static', filename='audios/' + audio.audio_file) }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </article>
+    <hr>
+    {% endfor %}
+
+
     {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
       {% if page_num %}
         {% if posts.page == page_num %}

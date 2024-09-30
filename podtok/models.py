@@ -26,6 +26,7 @@ class User(db.Model, UserMixin):
     phone_number = db.Column(db.String(15), nullable=True)
     posts = db.relationship('Post', backref='author', lazy=True)
     podcasts = db.relationship('Podcast', backref='creator', lazy=True)
+    audios = db.relationship('Audio', backref='author', lazy=True)
 
     def get_reset_token(self):
         s = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
@@ -77,3 +78,14 @@ class Episode(db.Model):
 
     def __repr__(self):
         return f"Episode('{self.title}', '{self.audio_file}', '{self.duration}', '{self.date_posted}')"
+    
+
+class Audio(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    audio_file = db.Column(db.String(120), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Audio('{self.title}', '{self.date_posted}')"
